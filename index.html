@@ -3,91 +3,317 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Armaan Hajar Portfolio</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-        header {
-            background: #333;
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
-        }
-        header h1 {
-            color: #fff;
-        }
-        section {
-            padding: 20px;
-            margin: 0 auto;
-            max-width: 800px;
-        }
-        h1, h2, h3 {
-            color: #333;
-        }
-        a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-    </style>
+    <title>JavaScript Apps Collection</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Armaan Hajar</h1>
-        <p>Portland, OR | (503) 726-6455 | <a href="mailto:armaanhajar@icloud.com">armaanhajar@icloud.com</a></p>
-        <p><a href="https://linkedin.com/in/armaan-hajar" target="_blank">LinkedIn</a> | <a href="https://github.com/ArmaanHajar" target="_blank">GitHub</a></p>
-    </header>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-title">JavaScript Apps</div>
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#" onclick="showApp('temp-converter')">Temp Converter</a></li>
+                <li><a href="#" onclick="showApp('magic8ball')">Magic 8 Ball</a></li>
+                <li><a href="#" onclick="showApp('tasklist')">Task List</a></li>
+                <li><a href="#" onclick="showApp('timer')">Timer</a></li>
+                <li><a href="#" onclick="showApp('nato')">NATO Converter</a></li>
+                <li><a href="#" onclick="showApp('calculator')">Calculator</a></li>
+                <li><a href="#" onclick="showApp('contacts')">Contacts</a></li>
+            </ul>
+        </div>
+    </nav>
 
-    <section>
-        <h2>Technical Skills and Interests</h2>
-        <ul>
-            <li>Programming Languages: Python, C++, C, Java, x86-64, </li>
-            <li>Frameworks: Tkinter, Pygubu Designer, NumPy, Pandas, Matplotlib</li>
-            <li>Tools: PyODBC, Microsoft Excel</li>
-            <li>Interests: Algorithm Design, Data Analysis, Biomedical Research</li>
-            <li>Hobbies: Soccer, Hiking, Video Games, Cooking, Music</li>
-        </ul>
-    </section>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Temperature Converter App -->
+        <div id="temp-converter-app" class="app-section active">
+            <div class="container">
+                <h1>Temperature Converter</h1>
+        
+                <div class="converter-section">
+                    <p>Enter a temperature value and select the conversion type.</p>
+                    
+                    <!-- getting the number input from the user -->
+                    <div class="input-group">
+                        <label for="temperature">Temperature:</label>
+                        <input type="number" id="temperature" placeholder="Enter value">
+                    </div>
+                    
+                    <!-- getting the selection input from the user -->
+                    <div class="input-group">
+                        <label for="conversion-type">Conversion:</label>
+                        <select id="conversion-type" onchange="updateFormula()">
+                            <option value="ftoc">Fahrenheit to Celsius</option>
+                            <option value="ctof">Celsius to Fahrenheit</option>
+                        </select>
+                    </div>
+                    
+                    <!-- display the formula based on the selection -->
+                    <div id="formula" class="formula">°C = (°F - 32) × 5/9</div>
+                    
+                    <!-- appropriate functions are called when clicked on each button -->
+                    <div>
+                        <button onclick="convertTemperature()">Convert</button>
+                        <button onclick="clearConverter()" class="clear">Clear</button>
+                    </div>
+                    
+                    <div id="conversion-result" class="result">
+                        <!-- result will be displayed here -->
+                    </div>
 
-    <section>
-        <h2>Highlighted Projects</h2>
-        <ul>
-            <li><a href="https://github.com/ArmaanHajar/RBTDeletion" target="_blank">C++ Red Black Tree Visualizer</a> - Add, delete, search nodes, and visualize the tree structure.</li>
-            <li><a href="https://github.com/ArmaanHajar/NamePopBrowser" target="_blank">Python Name Popularity Browser</a> - Analyze US Census name popularity data with a GUI.</li>
-            <li><a href="https://github.com/ArmaanHajar/Dijkstras-CS407" target="_blank">C++ Dijkstra’s Algorithm Visualizer</a> - Create graphs and find shortest paths between nodes.</li>
-        </ul>
-    </section>
+                    <div id="temp-assessment" class="assessment">
+                        <!-- assessment will be displayed here -->
+                    </div>
 
-    <section>
-        <h2>Education</h2>
-        <p><strong>University of Oregon, Clark Honors College</strong> (Sep 2023 - Jun 2027)</p>
-        <p>B.S. - Computer Science | Minor: Legal Studeis </p>
-    </section>
+                </div>
+            </div>
+        </div>
 
-    <section>
-        <h2>Work Experience</h2>
-        <ul>
-            <li><strong>Intel - Off Site Manufacturing Technical Coordinator</strong> (Jun 2024 - Sep 2024) - Created shipment tracking technologies using Python and Excel.</li>
-            <li><strong>Oregon Consulting Group - Strategy Consultant</strong> (Mar 2024 - Present) - Delivered consulting services using financial analysis and design methodologies.</li>
-            <li><strong>UO Knight Campus - Undergraduate Research Assistant</strong> (Oct 2023 - Present) - Developed Python pipelines for biomedical research.</li>
-        </ul>
-    </section>
+        <!-- Magic 8 Ball App -->
+        <div id="magic8ball-app" class="app-section">
+            <div class="container">
+                <h1>Magic 8 Ball</h1>
+                <input type="text" id="question" placeholder="Ask a question...">
+                <div class="ball" id="ball" onclick="shakeBall()">
+                    <div class="answer-window" id="answer">8</div>
+                </div>
+                <div class="button-group">
+                    <button id="shake-button" onclick="shakeBall()">Shake</button>
+                    <button id="reset-button" onclick="resetBall()">Reset</button>
+                </div>
+                <div id="question-display" class="question-display"></div>
+                <div id="history-container" class="history-container">
+                    <h2>Question History <button id="clear-history-button" onclick="clearHistory()">Clear History</button></h2>
+                    <ul id="question-history" class="question-history"></ul>
+                </div>
+            </div>
+        </div>
 
-    <footer>
-        <p>&copy; 2024 Armaan Hajar</p>
-    </footer>
+        <!-- Task List App -->
+        <div id="tasklist-app" class="app-section">
+            <div class="container">
+                <h1>TaskList with Wellness Suggestions</h1>
+      
+                <div class="app-description">
+                    <p>This app helps you organize tasks that need to be completed today. Add your tasks with a due date (MM/DD) and time (24-hour format). Tasks will be automatically sorted by due date and time.</p>
+                    <p>Use the "Random Task" button for health and wellness suggestions to take care of yourself throughout your day!</p>
+                </div>
+                
+                <div class="input-container">
+                    <div class="input-group">
+                    <input type="text" id="task-input" placeholder="Enter a task...">
+                    <input type="text" id="date-input" placeholder="MM/DD" maxlength="5">
+                    <input type="text" id="time-input" placeholder="HH:MM" maxlength="5">
+                    </div>
+                    <div class="button-group">
+                    <button id="add-button" onclick="addTask()">Add Task</button>
+                    <button id="clear-input-button" onclick="clearInput()">Clear Input</button>
+                    <button id="random-task-button" onclick="addRandomTask()">Random Task</button>
+                    </div>
+                </div>
+                <div class="tasks-container">
+                    <h2>Your Tasks <button id="clear-tasks-button" onclick="clearTasks()">Clear All Tasks</button></h2>
+                    <ul id="task-list" class="task-list"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Countdown Timer App -->
+        <div id="timer-app" class="app-section">
+            <div class="container">
+                <h1>Motivational Countdown Timer</h1>
+                
+                <div class="timer" id="timer">00:00</div>
+                
+                <div class="motivation" id="motivation">Enter seconds and start the timer for motivation!</div>
+                
+                <div class="controls">
+                    <input type="number" id="seconds" min="1" placeholder="Seconds" value="30">
+                    <div class="button-group">
+                        <button id="startBtn" onclick="startCountdown()">Start</button>
+                        <button id="resetBtn" onclick="resetTimer()">Reset</button>
+                    </div>
+                </div>
+                
+                <div class="timer-status" id="status"></div>
+            </div>
+        </div>
+
+        <!-- NATO Converter App -->
+        <div id="nato-app" class="app-section">
+            <div class="container">
+                <h1>NATO Phonetic Alphabet Converter</h1>
+                
+                <div class="app-description">
+                    <p>This converter helps you translate text into the NATO phonetic alphabet. Simply enter your text in the input field and click the "Convert" button to see the NATO phonetic equivalent.</p>
+                    <p>The NATO phonetic alphabet is used internationally to ensure clear communication, especially in radio transmissions and telecommunications.</p>
+                </div>
+                
+                <div class="input-group">
+                    <input type="text" id="inputString" placeholder="Enter text to convert">
+                </div>
+                
+                <div class="button-group">
+                    <button id="verbalize" onclick="verbalize()">Convert</button>
+                    <button id="clearNATO" onclick="clearNATOInputs()">Clear</button>
+                </div>
+                
+                <div class="result-group">
+                    <h2>NATO Result:</h2>
+                    <div id="natoResult" class="display-area"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculator App -->
+        <div id="calculator-app" class="app-section">
+            <div class="container">
+                <h1>Scientific Calculator</h1>
+                <div class="calculator">
+                    <div class="calculator-display">
+                        <div id="history"></div>
+                        <input type="text" id="display" readonly>
+                    </div>
+                    <div class="calculator-keys">
+                        <!-- First row: should be working at the end of lab7 -->
+                        <div class="calculator-row">
+                            <button class="btn-function" onclick="clearMemory()">MC</button>
+                            <button class="btn-function" onclick="recallMemory()">MR</button>
+                            <button class="btn-function" onclick="addToMemory()">M+</button>
+                            <button class="btn-function" onclick="subtractFromMemory()">M-</button>
+                            <button class="btn-function" onclick="clearAll()">C</button>
+                        </div>
+                        <!-- Second row:  for future implementation -->
+                        <div class="calculator-row">
+                            <button class="btn-function" onclick="insertMathFunction('Math.pow')">x<sup>y</sup></button>
+                            <button class="btn-function" onclick="insertMathFunction('Math.sqrt')">√</button>
+                            <button class="btn-function" onclick="insertMathFunction('Math.abs')">|x|</button>
+                            <button class="btn-function" onclick="insertMathConstant('Math.PI')">π</button>
+                            <button class="btn-function" onclick="insertMathConstant('Math.E')">e</button>
+                        </div>
+                        <!-- Third row: for future implementation -->
+                        <div class="calculator-row">
+                            <button class="btn-function" onclick="insertMathFunction('Math.sin')">sin</button>
+                            <button class="btn-function" onclick="insertMathFunction('Math.cos')">cos</button>
+                            <button class="btn-function" onclick="insertMathFunction('Math.tan')">tan</button>
+                            <button class="btn-function" onclick="insertMathFunction('Math.log')">log</button>
+                            <button class="btn-function" onclick="insertMathFunction('Math.exp')">exp</button>
+                        </div>
+                        <!-- Fourth row:  for future implementation -->
+                        <div class="calculator-row">
+                            <button class="btn-function" onclick="insertMathFunction('Math.asin')">asin</button>
+                            <button class="btn-function" onclick="insertMathFunction('Math.acos')">acos</button>
+                            <button class="btn-function" onclick="insertMathFunction('Math.atan')">atan</button>
+                            <button class="btn-function" onclick="insertMathConstant('Math.LN2')">ln2</button>
+                            <button class="btn-function" onclick="insertMathConstant('Math.LN10')">ln10</button>
+                        </div>
+                        <!-- Fifth row: should be working at the end of lab7  -->
+                        <div class="calculator-row">
+                            <button class="btn-number" onclick="appendToDisplay('7')">7</button>
+                            <button class="btn-number" onclick="appendToDisplay('8')">8</button>
+                            <button class="btn-number" onclick="appendToDisplay('9')">9</button>
+                            <button class="btn-operator" onclick="appendToDisplay('/')">/</button>
+                            <button class="btn-function" onclick="insertMathFunction('Math.round')">round</button>
+                        </div>
+                        <!-- Sixth row: should be working at the end of lab7  -->
+                        <div class="calculator-row">
+                            <button class="btn-number" onclick="appendToDisplay('4')">4</button>
+                            <button class="btn-number" onclick="appendToDisplay('5')">5</button>
+                            <button class="btn-number" onclick="appendToDisplay('6')">6</button>
+                            <button class="btn-operator" onclick="appendToDisplay('*')">×</button>
+                            <button class="btn-function" onclick="insertMathFunction('Math.ceil')">ceil</button>
+                        </div>
+                        <!-- Seventh row: should be working at the end of lab7  -->
+                        <div class="calculator-row">
+                            <button class="btn-number" onclick="appendToDisplay('1')">1</button>
+                            <button class="btn-number" onclick="appendToDisplay('2')">2</button>
+                            <button class="btn-number" onclick="appendToDisplay('3')">3</button>
+                            <button class="btn-operator" onclick="appendToDisplay('-')">-</button>
+                            <button class="btn-function" onclick="insertMathFunction('Math.floor')">floor</button>
+                        </div>
+                        <!-- Eighth row: should be working at the end of lab7  -->
+                        <div class="calculator-row">
+                            <button class="btn-number" onclick="appendToDisplay('0')">0</button>
+                            <button class="btn-number" onclick="appendToDisplay('.')">.</button>
+                            <button class="btn-equals" onclick="calculate()">=</button>
+                            <button class="btn-operator" onclick="appendToDisplay('+')">+</button>
+                            <button class="btn-function" onclick="deleteLast()">⌫</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contacts App -->
+        <div id="contacts-app" class="app-section">
+            <div class="container">
+                <h1>Contacts Management App</h1>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('view')">View Contacts</div>
+                    <div class="tab" onclick="switchTab('add')">Add Contact</div>
+                    <div class="tab" onclick="switchTab('json')">JSON Data</div>
+                </div>
+                
+                <div id="view-contacts" class="tab-content active">
+                    <div class="search-container">
+                        <input type="text" id="search-input" placeholder="Search contacts...">
+                        <div class="button-group">
+                            <button onclick="searchContacts()">Search</button>
+                            <button onclick="resetSearch()">Reset</button>
+                        </div>
+                    </div>
+                    
+                    <div id="contacts-list" class="contacts-list">
+                        <!-- Contacts will be displayed here -->
+                    </div>
+                </div>
+                
+                <div id="add-contact" class="tab-content">
+                    <h2>Add New Contact</h2>
+                    <form id="contact-form" onsubmit="return addContact()">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone:</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="type">Contact Type:</label>
+                            <select id="type">
+                                <option value="personal">Personal</option>
+                                <option value="work">Work</option>
+                                <option value="family">Family</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit">Add Contact</button>
+                    </form>
+                </div>
+                
+                <div id="json-view" class="tab-content">
+                    <h2>JSON Data</h2>
+                    <div class="json-display" id="json-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="apps.js"></script>
 </body>
 </html>
