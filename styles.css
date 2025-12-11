@@ -43,26 +43,38 @@ body {
     display: flex;
     gap: 15px;
     justify-content: center;
+    align-items: baseline;
+    margin-top: 20px;
 }
 
 .sim-btn {
-    padding: 12px 30px;
+    width: 140px;
+    height: 48px;
+    padding: 0;
+    margin: 0;
     font-size: 1em;
     font-weight: 600;
+    line-height: 1;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    white-space: nowrap;
-    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    position: relative;
+    top: 0;
 }
 
 .sim-btn:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    filter: brightness(1.1);
 }
 
 .sim-btn.running {
@@ -73,8 +85,6 @@ body {
 .sim-btn.clear-btn {
     background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
     box-shadow: 0 4px 15px rgba(250, 112, 154, 0.4);
-    width: 150px;
-    margin-top: 0;
 }
 
 .info-header {
@@ -227,13 +237,6 @@ button:active {
 
 #btn-run.running {
     background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
-}
-
-.clear-btn {
-    background: linear-gradient(135deg, #434343 0%, #000000 100%);
-    color: white;
-    margin-top: 0;
-    width: 150px;
 }
 
 .auto-setup-btn {

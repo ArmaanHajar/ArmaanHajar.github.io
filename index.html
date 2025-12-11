@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Physarum Polycephalum Simulator</title>
+    <title>PhysarumBuddy </title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -10,32 +10,46 @@
             <div class="info-header">Parameter Guide</div>
             <div class="info-section">
                 <div class="info-title">🔢 Agent Count</div>
-                <div class="info-text">Number of particles created per mold source. Each agent represents cytoplasm flow.</div>
+                <div class="info-text">Controls the density of the simulation by determining how many individual agents (particles) spawn from each mold source. In real Physarum, each agent represents a streaming cytoplasmic tube. Higher counts create denser, more continuous networks but increase computational cost. Default: 18,000 agents per source provides good coverage of the 600px plate.</div>
+                <div class="info-formula">total_agents = num_sources × agent_count</div>
             </div>
             <div class="info-section">
                 <div class="info-title">⚡ Movement Speed</div>
-                <div class="info-text">Distance each agent moves per frame.</div>
-                <div class="info-formula">position += direction × speed</div>
+                <div class="info-text">The step size (in pixels) each agent moves per simulation frame. Represents the rate of cytoplasmic streaming in Physarum. Larger values allow faster exploration of the environment but may cause agents to overshoot optimal paths. Speed affects both exploration time and network refinement.</div>
+                <div class="info-formula">new_position = current_position + (direction_vector × step_size)</div>
             </div>
             <div class="info-section">
                 <div class="info-title">👁️ Sensor Distance</div>
-                <div class="info-text">How far ahead agents sense trails and food. Agents sample three points (left, forward, right) at this distance.</div>
+                <div class="info-text">The forward sensing range for each agent. Agents sample three points (left, forward, right) at this distance to detect chemical trails and food gradients. Longer distances enable agents to detect distant food sources earlier, promoting long-range connections. This simulates chemotactic sensing in real slime mold.</div>
+                <div class="info-formula">sample_points = [position + direction × sensor_dist]</div>
+                <div class="info-formula">left_angle = current_angle - 0.45 rad</div>
+                <div class="info-formula">right_angle = current_angle + 0.45 rad</div>
             </div>
             <div class="info-section">
                 <div class="info-title">💧 Trail Deposit</div>
-                <div class="info-text">Amount of chemical trail deposited at each step.</div>
-                <div class="info-formula">trail[position] += deposit</div>
+                <div class="info-text">Amount of pheromone-like chemical deposited by each agent at its current position per timestep. This creates the visible yellow trails. Higher deposits make trails stronger and longer-lasting, encouraging path reinforcement. Agents use these trails for positive chemotaxis, following paths previously taken by themselves and others.</div>
+                <div class="info-formula">trail[x, y] += deposit_amount × fitness_multiplier</div>
+                <div class="info-formula">fitness_multiplier = 0.3 + (agent_fitness / 300)</div>
             </div>
             <div class="info-section">
                 <div class="info-title">⏱️ Decay Speed</div>
-                <div class="info-text">How fast trails fade. Higher = faster decay.</div>
-                <div class="info-formula">decay factor = 1 - (speed × 0.001)</div>
-                <div class="info-formula">trail[i] *= decay factor</div>
+                <div class="info-text">Rate at which chemical trails fade over time. Simulates natural degradation of extracellular matrix in Physarum. Higher values cause faster decay, forcing agents to continuously reinforce useful paths. The decay creates competition: frequently-used paths persist while unused paths disappear, enabling network optimization.</div>
+                <div class="info-formula">decay_factor = 1 - (decay_speed × 0.001)</div>
+                <div class="info-formula">trail[i] *= decay_factor</div>
+                <div class="info-formula">if (trail[i] < threshold) trail[i] = 0</div>
             </div>
             <div class="info-section">
                 <div class="info-title">🌾 Food Attraction</div>
-                <div class="info-text">Strength of chemical gradient from food sources.</div>
-                <div class="info-formula">attraction = strength × e<sup>-distance/15</sup></div>
+                <div class="info-text">Strength of the chemical gradient emanating from food sources (oat flakes). Higher values create stronger gradients that guide agents toward food over longer distances. The attraction follows an exponential decay model, with strongest signals near the food. This simulates nutrient chemotaxis in real Physarum.</div>
+                <div class="info-formula">gradient_strength = FOOD_ATTRACTION × e<sup>(-distance/15)</sup></div>
+                <div class="info-formula">sensor_weight += food_map[sensor_position]</div>
+            </div>
+            <div class="info-section">
+                <div class="info-title">🧠 Reinforcement Learning</div>
+                <div class="info-text">Agents track fitness scores based on proximity to food, trail following, and movement efficiency. High-fitness agents deposit more trail, reinforcing successful paths. Over 3000 steps, the network progressively optimizes, increasing trail-following and pruning inefficient connections.</div>
+                <div class="info-formula">fitness += 10 (near food) + 5 (on trail) + 3 (toward food)</div>
+                <div class="info-formula">fitness -= 2 (away from food) - 8 (long inefficient paths)</div>
+                <div class="info-formula">convergence = min(simulation_steps / 3000, 1.0)</div>
             </div>
         </div>
         
@@ -49,7 +63,7 @@
         
         <div class="right-panel">
             <div class="header">
-                <h1>Physarum Simulator</h1>
+                <h1>PhysarumBuddy</h1>
                 <div class="subtitle">Interactive Slime Mold Growth</div>
             </div>
             
