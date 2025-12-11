@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Physarum Polycephalum Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="info-header">Parameter Guide</div>
+            <div class="info-section">
+                <div class="info-title">🔢 Agent Count</div>
+                <div class="info-text">Number of particles created per mold source. Each agent represents cytoplasm flow.</div>
+            </div>
+            <div class="info-section">
+                <div class="info-title">⚡ Movement Speed</div>
+                <div class="info-text">Distance each agent moves per frame.</div>
+                <div class="info-formula">position += direction × speed</div>
+            </div>
+            <div class="info-section">
+                <div class="info-title">👁️ Sensor Distance</div>
+                <div class="info-text">How far ahead agents sense trails and food. Agents sample three points (left, forward, right) at this distance.</div>
+            </div>
+            <div class="info-section">
+                <div class="info-title">💧 Trail Deposit</div>
+                <div class="info-text">Amount of chemical trail deposited at each step.</div>
+                <div class="info-formula">trail[position] += deposit</div>
+            </div>
+            <div class="info-section">
+                <div class="info-title">⏱️ Decay Speed</div>
+                <div class="info-text">How fast trails fade. Higher = faster decay.</div>
+                <div class="info-formula">decay factor = 1 - (speed × 0.001)</div>
+                <div class="info-formula">trail[i] *= decay factor</div>
+            </div>
+            <div class="info-section">
+                <div class="info-title">🌾 Food Attraction</div>
+                <div class="info-text">Strength of chemical gradient from food sources.</div>
+                <div class="info-formula">attraction = strength × e<sup>-distance/15</sup></div>
+            </div>
+        </div>
+        
+        <div class="middle-panel">
+            <canvas id="simCanvas" width="600" height="600"></canvas>
+            <div class="simulation-controls">
+                <button id="btn-run" class="sim-btn">▶️ Run</button>
+                <button onclick="clearSim()" class="sim-btn clear-btn">🗑️ Clear</button>
+            </div>
+        </div>
+        
+        <div class="right-panel">
+            <div class="header">
+                <h1>Physarum Simulator</h1>
+                <div class="subtitle">Interactive Slime Mold Growth</div>
+            </div>
+            
+            <div class="divider"></div>
+                        
+            <div class="control-section">
+                <div class="section-title">Placement Mode</div>
+                <button id="btn-mold">🦠 Place Mold</button>
+                <button id="btn-food">🌾 Place Food</button>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="control-section">
+                <div class="section-title">Quick Setup</div>
+                
+                <div class="slider-group">
+                    <label for="foodCount">Food Pieces: <span id="foodCountValue">8</span></label>
+                    <input type="range" id="foodCount" min="3" max="20" step="1" value="8">
+                </div>
+                
+                <button id="btn-auto-setup" class="auto-setup-btn">⚡ Auto Setup Plate</button>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="control-section">
+                <div class="section-title">Simulation Parameters</div>
+                
+                <div class="slider-group">
+                    <label for="agentCount">Agent Count: <span id="agentCountValue">18000</span></label>
+                    <input type="range" id="agentCount" min="0" max="36000" step="1000" value="18000">
+                </div>
+                
+                <div class="slider-group">
+                    <label for="stepSize">Movement Speed: <span id="stepSizeValue">3.0</span></label>
+                    <input type="range" id="stepSize" min="0" max="6.0" step="0.1" value="3.0">
+                </div>
+                
+                <div class="slider-group">
+                    <label for="sensorDist">Sensor Distance: <span id="sensorDistValue">30</span></label>
+                    <input type="range" id="sensorDist" min="0" max="60" step="1" value="30">
+                </div>
+                
+                <div class="slider-group">
+                    <label for="depositAmount">Trail Deposit: <span id="depositAmountValue">6</span></label>
+                    <input type="range" id="depositAmount" min="0" max="12" step="1" value="6">
+                </div>
+                
+                <div class="slider-group">
+                    <label for="decaySpeed">Decay Speed: <span id="decaySpeedValue">5</span></label>
+                    <input type="range" id="decaySpeed" min="0" max="10" step="1" value="5">
+                </div>
+                
+                <div class="slider-group">
+                    <label for="foodAttraction">Food Attraction: <span id="foodAttractionValue">10.0</span></label>
+                    <input type="range" id="foodAttraction" min="0" max="20.0" step="0.5" value="10.0">
+                </div>
+                
+                <button class="clear-btn" onclick="resetParameters()" style="margin-top: 15px;">🔄 Reset Parameters</button>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="instructions">
+                <strong>How to use:</strong><br>
+                1. Adjust parameters with sliders above<br>
+                2. Click on the agar plate to place mold starting point<br>
+                3. Switch to food mode and place oat flakes<br>
+                4. Press "Run Simulation" to watch the network form<br>
+                5. Observe how it finds efficient paths between food sources
+            </div>
+            
+            <div class="stats" id="stats">Agents: 0 | Food: 0 | Sources: 0</div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="agent.js"></script>
+    <script src="simulation.js"></script>
+    <script src="ui.js"></script>
+</body>
+</html>
